@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Tareas</title>
+</head>
+<body>
+<main>
+    <div class="px-4 py-5 my-5 text-center d-flex flex-column align-items-center">
+        <div class="my-5">
+            <h1 class="display-5 fw-bold mb-4">Mis tareas</h1>
+            <a href="/tasks/new" class="btn btn-secondary">Crear Tarea</a>
+        </div>
+        <div class="d-flex gap-4 justify-content-center">
+            <div th:each="task: ${tasks}" class="card" style="width: 18rem;">
+                <div th:switch="${task.done}">
+                    <img th:case="true" src="img/done.png" class="card-img-top" alt="Tarea realizada" style="width:60px">
+                    <img th:case="false" src="img/pending.png" class="card-img-top" alt="Tarea pendiente" style="width:60px">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${task.description}"></h5>
+                    <p class="card-text" th:text="${task.dueDate}"></p>
+                    <div class="d-flex flex-column gap-3">
+                        <div th:if="${!task.done}">
+                            <form th:action="@{/tasks/{id}(id=${task.id})}"  th:method="patch">
+                                <button type="submit" class="btn btn-primary">Finalizar tarea</button>
+                            </form>
+                        </div>
+                        <div>
+                            <form th:action="@{/tasks/{id}(id=${task.id})}"  th:method="delete">
+                                <button type="submit" class="btn btn-danger">Eliminar tarea</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
